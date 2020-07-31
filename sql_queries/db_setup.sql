@@ -4,6 +4,7 @@ CREATE TABLE `dollarsbank`.`accounts` (
   `id` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
   `name` VARCHAR(45) NULL,
+  `address` VARCHAR(45) NULL,
   `phone` VARCHAR(45) NULL,
   `funds` DOUBLE NOT NULL,
   PRIMARY KEY (`account_number`),
