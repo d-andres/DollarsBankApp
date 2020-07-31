@@ -1,0 +1,3 @@
+INSERT INTO `dollarsbank`.`accounts` (`account_number`, `id`, `password`, `name`, `phone`, `funds`) VALUES ('1001', 'U0000001', 'password', 'John Doe', '(555) 555-5555', '100.00');
+INSERT INTO `dollarsbank`.`accounts` (`account_number`, `id`, `password`, `name`, `phone`, `funds`) VALUES ('1002', 'U0000002', 'password', 'Jane Doe', '(555) 555-5544', '11489.47');
+INSERT INTO `dollarsbank`.`accounts` (`account_number`, `id`, `password`, `name`, `phone`, `funds`) VALUES ('1003', 'U0000003', 'uX134ec8', 'James Bond', '(555) 007-0000', '7518475.25');
