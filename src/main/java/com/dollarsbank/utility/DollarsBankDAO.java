@@ -72,6 +72,7 @@ public class DollarsBankDAO {
 				c.setId(rs.getString("id"));
 				c.setPassword(rs.getString("password"));
 				c.setName(rs.getString("name"));
+				c.setAddress(rs.getString("address"));
 				c.setPhone(rs.getString("phone"));
 				a.setCustomer(c);
 				a.setAccountNumber(rs.getInt("account_number"));
@@ -90,5 +91,20 @@ public class DollarsBankDAO {
 			ex.printStackTrace();
 		}
 		return null;
+	}
+
+	public void addAccount(Account account) {
+		
+		Connection con = DatabaseConnectionUtil.getConnection();
+		try{
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("INSERT INTO `dollarsbank`.`accounts` (`id`, `password`, `name`, 'address', `phone`, `funds`) " 
+			+ "VALUES ('" + account.getCustomer().getId() + "', '" + account.getCustomer().getPassword() + "', '" + account.getCustomer().getName() 
+			+ "', '" + account.getCustomer().getPhone() + "', '" + account.getFunds() + "');");
+			con.close();
+			stmt.close();
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		}
 	}
 }

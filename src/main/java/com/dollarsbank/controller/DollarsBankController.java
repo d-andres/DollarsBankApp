@@ -1,6 +1,5 @@
 package com.dollarsbank.controller;
 
-import java.util.List;
 import java.util.Scanner;
 
 import com.dollarsbank.model.Account;
@@ -9,35 +8,77 @@ import com.dollarsbank.utility.DollarsBankDAO;
 
 public class DollarsBankController {
 
-	List<Account> accountList;
 	DollarsBankDAO dao = new DollarsBankDAO();
-
-	public DollarsBankController() {
-		accountList = dao.getAllAccounts();
-	}
 
 	public void run() {
 		ConsolePrinterUtility printer = new ConsolePrinterUtility();
 		Scanner sysin = new Scanner(System.in);
-		String input;
+		String choice = "";
 		
 
-		while(true) {
+		while(!choice.equals("3")) {
+			//show Welcome Menu
 			printer.printWelcome();
-			input = sysin.nextLine();
-			switch(input) {
+			choice = sysin.nextLine();
+			switch(choice) {
 				case "1":
-					printer.printNewAccount(sysin);
+					//show New Account Menu
+					Account account = printer.printNewAccount(sysin);
+					dao.addAccount(account);
 					break;
 				case "2":
-					printer.printLogin(sysin);
+					while(true) {
+						//show Login Menu
+						Account acct = printer.printLogin(sysin, dao);
+						if(acct == null)
+							printer.printError(2);
+						else {
+							String choice1 = "";
+							while(!choice1.equals("6")) {
+								//show Customer Menu
+								printer.printCustomerMenu();
+								choice1 = sysin.nextLine();
+								switch(choice1) {
+									case "1":
+										//show Deposit Menu
+										printer.printDepositMenu(sysin);
+										break;
+									case "2":
+										//show Withdraw Menu
+										printer.printWithdrawMenu(sysin);
+										break;
+									case "3":
+										//show Funds Transfer Menu
+										printer.printFundsTransfer(sysin);
+										break;
+									case "4":
+										//show 5 Recent Transactions
+										printer.printRecentTransactions();
+										break;
+									case "5":
+										//show Customer Info
+										printer.printCustomerInfo(acct.getCustomer());
+										sysin.nextLine();
+										break;
+									case "6":
+										//quits Customer Menu
+										break;
+									default:
+										printer.printError(1);
+								}
+							}
+							break;
+						}
+					}
 					break;
 				case "3":
-					return;
+					//Exits app
+					break;
 				default:
 					printer.printError(1);
 			}
 		}
+		sysin.close();
 	}
 
 }

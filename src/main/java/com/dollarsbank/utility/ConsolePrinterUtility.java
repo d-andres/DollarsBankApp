@@ -13,10 +13,9 @@ public class ConsolePrinterUtility {
 		System.out.println(color.BLUE + "+---------------------------+\n" + "| DOLLARSBANK Welcomes You! |\n" + "+---------------------------+" + color.RESET);
 		System.out.println("1. Create New Account\n" + "2. Login\n" + "3. Exit.\n");
 		System.out.println(color.GREEN + "Enter Choice (1,2 or 3) :" + color.RESET);
-		//TODO
 	}
 
-	public void printNewAccount(Scanner sysin) {
+	public Account printNewAccount(Scanner sysin) {
 		Customer customer = new Customer();
 		Account account = new Account();
 		System.out.println(color.BLUE + "+-------------------------------+\n" + "| Enter Details For New Account |\n" + "+-------------------------------+" + color.RESET);
@@ -37,27 +36,38 @@ public class ConsolePrinterUtility {
 		input = sysin.nextLine();
 		customer.setId(input);
 
-		System.out.println(color.RESET + "Password : 8 Characters With Lower, Upper & Special" + color.GREEN);
-		input = sysin.nextLine();
-		customer.setPassword(input);
-
+		while(true) //loop for regex //TODO (?=.*[a-z])(?=.*[A-Z])(?=.*?[#?!@$%^&*-])[A-Za-z#?!@$%^&*-]{8,}$
+		{
+			System.out.println(color.RESET + "Password : 8 Characters With Lower, Upper & Special" + color.GREEN);
+			input = sysin.nextLine();
+			customer.setPassword(input);
+			break;
+		}
+		
 		System.out.println(color.RESET + "Initial Deposit Amount:" + color.GREEN);
 		input = sysin.nextLine();
 		account.setFunds(Double.parseDouble(input));
 
 		account.setCustomer(customer);
-		
+
+		return account;
 	}
 
-	public void printLogin(Scanner sysin) {
+	public Account printLogin(Scanner sysin, DollarsBankDAO dao) {
 		System.out.println(color.BLUE + "+---------------------+\n" + "| Enter Login Details |\n" + "+---------------------+" + color.RESET);
 		System.out.println("User Id :" + color.GREEN);
-		//TODO
+		String id = sysin.nextLine();
+		System.out.println(color.RESET + "Password :" + color.GREEN);
+		String password = sysin.nextLine();
+
+		Account account = dao.getAccount(id, password);
+		return account;
 	}
 
-	public void printCustomerMenu(Scanner sysin) {
+	public void printCustomerMenu() {
 		System.out.println(color.BLUE + "+---------------------+\n" + "| WELCOME Customer!!! |\n" + "+---------------------+" + color.BLUE);
-		//TODO
+		System.out.println("1. Deposit Amount\n" + "2. Withdraw Amount\n" + "3. Funds Transfer\n" + "4. View 5 Recent Transactions\n" + "5. Display Customer Information\n" + "6. Sign Out\n");
+		System.out.println(color.GREEN + "Enter Choice (1,2,3,4,5 or 6) :" + color.RESET);
 	}
 
 	public void printDepositMenu(Scanner sysin) {
@@ -83,7 +93,9 @@ public class ConsolePrinterUtility {
 
 	public void printCustomerInfo(Customer customer) {
 		System.out.println(color.BLUE + "+----------------------+\n" + "| Customer Information |\n" + "+----------------------+" + color.RESET);
-		//TODO
+		System.out.println("Customer Name: " + color.GREEN + customer.getName());
+		System.out.println(color.RESET + "Customer Address: " + color.GREEN + customer.getAddress());
+		System.out.println(color.RESET + "Customer Contact Number: " + color.GREEN + customer.getPhone());
 	}
 
 	public void printError() {
