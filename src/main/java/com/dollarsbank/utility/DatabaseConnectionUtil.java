@@ -5,14 +5,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * An object used to connect to a SQL database. 
+ */
 public class DatabaseConnectionUtil {
     public static final String URL = "jdbc:mysql://localhost:3306/dollarsbank";
     public static final String USER = "root";
     public static final String PASS = "root";
     
     /**
-     * 
-     * @return
+     * Returns a Connection object with the given url, username, and password for a SQL database.
+     * @return the Connection object containing url, username, and password
      */
     public static Connection getConnection()
     {

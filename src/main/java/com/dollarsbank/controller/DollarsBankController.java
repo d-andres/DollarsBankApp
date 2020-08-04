@@ -6,10 +6,16 @@ import com.dollarsbank.model.Account;
 import com.dollarsbank.utility.ConsolePrinterUtility;
 import com.dollarsbank.utility.DollarsBankDAO;
 
+/**
+ * 
+ */
 public class DollarsBankController {
 
 	DollarsBankDAO dao = new DollarsBankDAO();
 
+	/**
+	 * 
+	 */
 	public void run() {
 		ConsolePrinterUtility printer = new ConsolePrinterUtility();
 		Scanner sysin = new Scanner(System.in);
@@ -41,11 +47,11 @@ public class DollarsBankController {
 								switch(choice1) {
 									case "1":
 										//show Deposit Menu
-										printer.printDepositMenu(sysin);
+										printer.printDepositMenu(sysin, acct);
 										break;
 									case "2":
 										//show Withdraw Menu
-										printer.printWithdrawMenu(sysin);
+										printer.printWithdrawMenu(sysin, acct);
 										break;
 									case "3":
 										//show Funds Transfer Menu
@@ -53,7 +59,7 @@ public class DollarsBankController {
 										break;
 									case "4":
 										//show 5 Recent Transactions
-										printer.printRecentTransactions();
+										printer.printRecentTransactions(acct);
 										break;
 									case "5":
 										//show Customer Info
@@ -61,7 +67,8 @@ public class DollarsBankController {
 										sysin.nextLine();
 										break;
 									case "6":
-										//quits Customer Menu
+										//quits Customer Menu after update db
+										dao.updateAccount(acct);
 										break;
 									default:
 										printer.printError(1);

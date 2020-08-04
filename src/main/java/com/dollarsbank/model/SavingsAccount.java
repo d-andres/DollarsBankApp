@@ -1,5 +1,8 @@
 package com.dollarsbank.model;
 
+/**
+ * an object to store data for a customer's savings account
+ */
 public class SavingsAccount {
 	private Customer customer;
 	private double funds;

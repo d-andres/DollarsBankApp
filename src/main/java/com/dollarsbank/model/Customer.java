@@ -1,5 +1,8 @@
 package com.dollarsbank.model;
 
+/**
+ * an object used to contain a customer's information
+ */
 public class Customer {
 	private String name;
 	private String address;
