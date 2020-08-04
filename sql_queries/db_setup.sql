@@ -19,3 +19,4 @@ CREATE TABLE `dollarsbank`.`savings` (
   UNIQUE INDEX `account_number_UNIQUE` (`account_number` ASC) VISIBLE);
 
 ALTER TABLE `dollarsbank`.`accounts`ADD FOREIGN KEY (savings) REFERENCES savings(account_number);
+INSERT INTO `dollarsbank`.`savings` (`account_number`, `funds`) VALUES ('0', '-1');
