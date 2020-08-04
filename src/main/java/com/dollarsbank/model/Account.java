@@ -14,7 +14,7 @@ public class Account {
 	public Customer getCustomer() { return this.customer; }
 
 	public void setAccountNumber(int account_number) { this.account_number = account_number; }
-	public double getAccountNumber() { return this.account_number; }
+	public int getAccountNumber() { return this.account_number; }
 
 	public void setFunds(double funds) { this.funds = funds; }
 	public double getFunds() { return this.funds; }

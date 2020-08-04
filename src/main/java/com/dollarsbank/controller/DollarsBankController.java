@@ -31,6 +31,8 @@ public class DollarsBankController {
 					//show New Account Menu
 					Account account = printer.printNewAccount(sysin);
 					dao.addAccount(account);
+					//account = dao.getAccount(account.getCustomer().getId(), account.getCustomer().getPassword());
+					//dao.addSavings(dao.getAccount(account.getCustomer().getId(), account.getCustomer().getPassword()).getAccountNumber());
 					break;
 				case "2":
 					while(true) {
@@ -55,7 +57,7 @@ public class DollarsBankController {
 										break;
 									case "3":
 										//show Funds Transfer Menu
-										printer.printFundsTransfer(sysin);
+										printer.printFundsTransfer(sysin, acct);
 										break;
 									case "4":
 										//show 5 Recent Transactions
@@ -69,6 +71,7 @@ public class DollarsBankController {
 									case "6":
 										//quits Customer Menu after update db
 										dao.updateAccount(acct);
+										dao.updateSavings(acct.getSavingsAccount());
 										break;
 									default:
 										printer.printError(1);

@@ -1,7 +1,8 @@
 package com.dollarsbank.utility;
 
-import java.util.Date;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.dollarsbank.model.Account;
 import com.dollarsbank.model.Customer;
@@ -24,6 +25,7 @@ public class ConsolePrinterUtility {
 
 	/**
 	 * Prints out the menu for the user to create a new account.
+	 * @param sysin the Scanner object for user input
 	 * @return the Account object with the provided data
 	 */
 	public Account printNewAccount(Scanner sysin) {
@@ -47,12 +49,20 @@ public class ConsolePrinterUtility {
 		input = sysin.nextLine();
 		customer.setId(input);
 
-		while(true) //loop for regex //TODO (?=.*[a-z])(?=.*[A-Z])(?=.*?[#?!@$%^&*-])[A-Za-z#?!@$%^&*-]{8,}$
+		while(true)
 		{
-			System.out.println(color.RESET + "Password : 8 Characters With Lower, Upper & Special" + color.GREEN);
+			System.out.println(color.RESET + "Password : 8 Characters With Lower, Upper, Number & Special" + color.GREEN);
 			input = sysin.nextLine();
-			customer.setPassword(input);
-			break;
+			String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,}";
+			Pattern pattern = Pattern.compile(regex);
+			Matcher matcher = pattern.matcher(input);
+			if(matcher.matches()) {
+				customer.setPassword(input);
+				break;
+			} 
+			else
+				printError(3);
+			
 		}
 		
 		System.out.println(color.RESET + "Initial Deposit Amount:" + color.GREEN);
@@ -68,6 +78,7 @@ public class ConsolePrinterUtility {
 
 	/**
 	 * Prints out the Login menu
+	 * @param sysin the Scanner object for user input
 	 * @param dao the data access object to retrieve info from the database
 	 * @return the Account object with a username and password
 	 */
@@ -93,6 +104,7 @@ public class ConsolePrinterUtility {
 
 	/**
 	 * Prints the Deposit menu
+	 * @param sysin the Scanner object for user input
 	 * @return the double of the amount to deposit
 	 */
 	public void printDepositMenu(Scanner sysin, Account account) {
@@ -106,6 +118,7 @@ public class ConsolePrinterUtility {
 
 	/**
 	 * Prints the Withdraw menu
+	 * @param sysin the Scanner object for user input
 	 * @return the double of the amount to withdraw
 	 */
 	public void printWithdrawMenu(Scanner sysin, Account account) {
@@ -123,12 +136,49 @@ public class ConsolePrinterUtility {
 		
 	}
 
-	//TODO
-	public void printFundsTransfer(Scanner sysin) {
+	/**
+	 * Prints the Funds tranfer menu. Allows the user to tranfer to or from the savings account.
+	 * @param sysin the Scanner object for user input
+	 * @param account the account containing the data of the funds
+	 */
+	public void printFundsTransfer(Scanner sysin, Account account) {
 		System.out.println(color.BLUE + "+----------------+\n" + "| Funds Transfer |\n" + "+----------------+" + color.RESET);
 		System.out.println("1. Transfer to Savings account.\n" + "2. Transfer from Savings account.");
 		System.out.println(color.GREEN + "Enter Choice (1 or 2) :" + color.RESET);
 		String input = sysin.nextLine();
+		switch(Integer.parseInt(input)) {
+			case 1:
+				System.out.println("Enter amount to transfer: " + color.GREEN);
+				input = sysin.nextLine();
+				double transfer1 = Double.parseDouble(input);
+				double newbalance1 = account.getFunds() - transfer1;
+				if (newbalance1 < 0)
+					System.out.println("Insufficient funds in account.");
+				else {
+					account.setFunds(newbalance1);
+					account.getSavingsAccount().setFunds(account.getSavingsAccount().getFunds() + transfer1);
+					String history = "- $" + input + " on " + java.util.Calendar.getInstance().getTime() + "%";
+					account.setHistory(account.getHistory() + history);
+				}
+				break;
+			case 2:
+				System.out.println("Enter amount to transfer: " + color.GREEN);
+				input = sysin.nextLine();
+				double transfer2 = Double.parseDouble(input);
+				double newbalance2 = account.getSavingsAccount().getFunds() - transfer2;
+				if (newbalance2 < 0)
+					System.out.println("Insufficient funds Savings account.");
+				else {
+					account.getSavingsAccount().setFunds(newbalance2);
+					account.setFunds(account.getFunds() + transfer2);
+					String history = "+ $" + input + " on " + java.util.Calendar.getInstance().getTime() + "%";
+					account.setHistory(account.getHistory() + history);
+				}
+				break;
+			default:
+				printError();
+		}
+		
 	}
 
 	/**
@@ -176,6 +226,9 @@ public class ConsolePrinterUtility {
 				break;
 			case 2:
 				System.out.println(color.RED + "Invalid Credentials. Try Again!" + color.RESET);
+				break;
+			case 3:
+				System.out.println(color.RED + "Invalid Combination. Try Again!" + color.RESET);
 				break;
 			default:
 				System.out.println(color.RED + "Invalid Input. Try Again!" + color.RESET);
