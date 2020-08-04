@@ -17,4 +17,10 @@ A simple console banking application created to demonstrate skill in Java fundam
   b. Transactions (withdrawls / depsosits, etc.)
 6. Use JDBC and DAO to connect user info to a database
 
-**WORK IN PROGRESS**
+## Database Setup
+The application uses a mysql database. Run the [db_setup](https://github.com/d-andres/DollarsBankApp/blob/master/sql_queries/db_setup.sql) query to setup the schema. If you want to change the username, password, or URL to the database on the application, they can be set on [DatabaseConnectionUtil.java](https://github.com/d-andres/DollarsBankApp/blob/master/src/main/java/com/dollarsbank/utility/DatabaseConnectionUtil.java).
+
+## Future updates
+- More handling of illegal operations
+- Stub generation
+- File storage
