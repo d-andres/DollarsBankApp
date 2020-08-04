@@ -38,17 +38,22 @@ public class DollarsBankDAO {
 				c.setName(rs.getString("name"));
 				c.setPhone(rs.getString("phone"));
 				a.setCustomer(c);
-				a.getSavingsAccount().setCustomer(c);
 				a.setAccountNumber(rs.getInt("account_number"));
-				a.getSavingsAccount().setAccountNumber(rs.getInt("savings"));
 				a.setFunds(rs.getDouble("funds"));
 				a.setHistory(rs.getString("history"));
 
-				ResultSet rs2 = stmt.executeQuery("SELECT * FROM savings WHERE account_number='" + a.getSavingsAccount().getAccountNumber() +"'");
-				a.getSavingsAccount().setFunds(rs2.getDouble("funds"));
+				SavingsAccount sa = new SavingsAccount();
+				sa.setCustomer(c);
+				sa.setAccountNumber(rs.getInt("savings"));
+				if(sa.getAccountNumber() != 0){
+					ResultSet rs2 = stmt.executeQuery("SELECT * FROM savings WHERE account_number='" + sa.getAccountNumber() +"'");
+					if(rs2.next())
+						sa.setFunds(rs2.getDouble("funds"));
+					rs2.close();
+				}
+				a.setSavingsAccount(sa);
 
 				list.add(a);
-				rs2.close();
 			}
 
 			con.close();
@@ -86,19 +91,24 @@ public class DollarsBankDAO {
 				c.setAddress(rs.getString("address"));
 				c.setPhone(rs.getString("phone"));
 				a.setCustomer(c);
-				a.getSavingsAccount().setCustomer(c);
 				a.setAccountNumber(rs.getInt("account_number"));
-				a.getSavingsAccount().setAccountNumber(rs.getInt("savings"));
 				a.setFunds(rs.getDouble("funds"));
 				a.setHistory(rs.getString("history"));
 
-				ResultSet rs2 = stmt.executeQuery("SELECT * FROM savings WHERE account_number='" + a.getSavingsAccount().getAccountNumber() +"'");
-				a.getSavingsAccount().setFunds(rs2.getDouble("funds"));
+				SavingsAccount sa = new SavingsAccount();
+				sa.setCustomer(c);
+				sa.setAccountNumber(rs.getInt("savings"));
+				if(sa.getAccountNumber() != 0){
+					ResultSet rs2 = stmt.executeQuery("SELECT * FROM savings WHERE account_number='" + sa.getAccountNumber() +"'");
+					if(rs2.next())
+						sa.setFunds(rs2.getDouble("funds"));
+					rs2.close();
+				}
+				a.setSavingsAccount(sa);
 
 				con.close();
 				stmt.close();
 				rs.close();
-				rs2.close();
 				
 				return a;
 			}
@@ -120,9 +130,9 @@ public class DollarsBankDAO {
 		Connection con = DatabaseConnectionUtil.getConnection();
 		try{
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("INSERT INTO `dollarsbank`.`accounts` (`id`, `password`, `name`, `address`, `phone`, `funds`, `history`) " 
+			stmt.executeUpdate("INSERT INTO `dollarsbank`.`accounts` (`id`, `password`, `name`, `address`, `phone`, `funds`, `savings`, `history`) " 
 				+ "VALUES ('" + account.getCustomer().getId() + "', '" + account.getCustomer().getPassword() + "', '" + account.getCustomer().getName() 
-				+ "', '" + account.getCustomer().getAddress() + "', '" + account.getCustomer().getPhone() + "', '" + account.getFunds() + "', '" + account.getHistory() + "');");
+				+ "', '" + account.getCustomer().getAddress() + "', '" + account.getCustomer().getPhone() + "', '" + account.getFunds() + "', '0','" + account.getHistory() + "');");
 			con.close();
 			stmt.close();
 		} catch(SQLException ex) {
@@ -139,10 +149,10 @@ public class DollarsBankDAO {
 		Connection con = DatabaseConnectionUtil.getConnection();
 		try{
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("UPDATE `dollarsbank`.`accounts` SET `savings` = '" + account_number
-				+ "' WHERE (`account_number` = '" + account_number + "');");
 			stmt.executeUpdate("INSERT INTO `dollarsbank`.`savings` (`account_number`, `funds`) " 
 				+ "VALUES ('" + account_number + "', '0');");
+			stmt.executeUpdate("UPDATE `dollarsbank`.`accounts` SET `savings` = '" + account_number
+				+ "' WHERE (`account_number` = '" + account_number + "');");
 			con.close();
 			stmt.close();
 		} catch(SQLException ex) {

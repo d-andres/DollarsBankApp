@@ -32,7 +32,7 @@ public class DollarsBankController {
 					Account account = printer.printNewAccount(sysin);
 					dao.addAccount(account);
 					//account = dao.getAccount(account.getCustomer().getId(), account.getCustomer().getPassword());
-					//dao.addSavings(dao.getAccount(account.getCustomer().getId(), account.getCustomer().getPassword()).getAccountNumber());
+					dao.addSavings(dao.getAccount(account.getCustomer().getId(), account.getCustomer().getPassword()).getAccountNumber());
 					break;
 				case "2":
 					while(true) {
