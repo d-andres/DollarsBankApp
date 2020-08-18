@@ -20,7 +20,7 @@ A simple console banking application created to demonstrate skill in Java fundam
 ## Database Setup
 The application uses a mysql database. Run the [db_setup](https://github.com/d-andres/DollarsBankApp/blob/master/sql_queries/db_setup.sql) query to setup the schema. If you want to change the username, password, or URL to the database on the application, they can be set on [DatabaseConnectionUtil.java](https://github.com/d-andres/DollarsBankApp/blob/master/src/main/java/com/dollarsbank/utility/DatabaseConnectionUtil.java).
 
-## Future updates
+## To Be Implemented 
 - More handling of illegal operations
 - Stub generation
 - File storage
