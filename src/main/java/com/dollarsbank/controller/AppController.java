@@ -22,13 +22,13 @@ public class AppController {
 
 	@RequestMapping("/")
     String getHome() {
-		return "view/home";
+		return "views/home";
     }
 
     @GetMapping("/login")
     String getLogin(Model model) {
         model.addAttribute("account", new Account());
-        return "view/login_form";
+        return "views/login/login_form";
     }
 
     @PostMapping("/login")
@@ -43,13 +43,13 @@ public class AppController {
                 session.setAttribute("activeAccount", a);
             }
         }
-        return "view/login_success";
+        return "views/login/login_success";
     }
 
     @GetMapping("/register")
     String getRegister(Model model) {
         model.addAttribute("account", new Account());
-        return "view/register_form";
+        return "views/register/register_form";
     }
 
     @PostMapping("/register")
@@ -62,20 +62,20 @@ public class AppController {
         } else
             session.setAttribute("registered", false);
             
-        return "view/register_success";
+        return "views/register/register_success";
     }
 
     @RequestMapping("/logout")
     String showLogout(HttpSession session) {
         if(session.getAttribute("activeAccount") != null)
             session.removeAttribute("activeAccount");
-        return "view/logout";
+        return "views/login/logout";
     }
 
     @GetMapping("/deposit")
     String getDeposit(Model model) {
         model.addAttribute("account", new Account());
-        return "view/deposit_form";
+        return "views/transactions/deposit_form";
     }
 
     @PostMapping("/deposit")
@@ -92,16 +92,16 @@ public class AppController {
             accountRepository.updateHistoryById(account.getId(), history);
             session.setAttribute("activeAccount", account);
             session.setAttribute("deposited", true);
-            return "view/deposit_success";
+            return "views/transactions/deposit_success";
         }
         session.setAttribute("deposited", false);
-        return "view/deposit_success";
+        return "views/transactions/deposit_success";
     }
 
     @GetMapping("/withdraw")
     String getWithdraw(Model model) {
         model.addAttribute("account", new Account());
-        return "view/withdraw_form";
+        return "views/transactions/withdraw_form";
     }
 
     @PostMapping("/withdraw")
@@ -119,33 +119,33 @@ public class AppController {
                 accountRepository.updateHistoryById(account.getId(), history);
                 session.setAttribute("activeAccount", account);
                 session.setAttribute("withdrew", true);
-                return "view/withdraw_success";
+                return "views/transactions/withdraw_success";
             }
             
         }
         session.setAttribute("withdrew", false);
-        return "view/deposit_success";
+        return "views/transactions/deposit_success";
     }
 
     @GetMapping("/transfer")
     String getTransfer(Model model) {
         model.addAttribute("account", new Account());
-        return "view/transfer_form";
+        return "views/transactions/transfer_form";
     }
 
     @PostMapping("/transfer")
     String postTransfer(@ModelAttribute Account acct, HttpSession session) {
         session.setAttribute("transfered", false);
-        return "view/transfer_success";
+        return "views/transactions/transfer_success";
     }
 
     @RequestMapping("/recent-history")
     String showHistory() {
-        return "view/history";
+        return "views/information/history";
     }
 
     @RequestMapping("/customer-info")
     String showCustomerInfo() {
-        return "view/customer-info";
+        return "views/information/customer-info";
     }
 }
