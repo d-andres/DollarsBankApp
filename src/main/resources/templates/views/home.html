@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>DollarsBank - Welcome to DollarsBank!</title>
+	</head>
+	<body>
+		<div th:insert="views/fragments/welcome :: header"></div>
+		<div th:insert="views/fragments/welcome :: welcome"></div>
+		<div>
+			<table th:if="${session.activeAccount == null}" >
+				<tr>
+					<td><a class="button" th:href="@{/login}">Login</a></td>
+				</tr>
+				<tr>
+					<td><a class="button" th:href="@{/register}">Register</a></td>
+				</tr>
+			</table>
+			</table>
+			<table th:if="${session.activeAccount}">
+				<thead>
+					<tr>
+						<th>Menu</th>
+					</tr>
+				</thead>
+				<tr>
+					<td><a class="button" th:href="@{/deposit}">Deposit</a></td>
+				</tr>
+				<tr>
+					<td><a class="button" th:href="@{/withdraw}">Withdraw</a></td>
+				</tr>
+				<tr>
+					<td><a class="button" th:href="@{/transfer}">Transfer Funds</a></td>
+				</tr>
+				<tr>
+					<td><a class="button" th:href="@{/recent-history}">View Recent Transactions</a></td>
+				</tr>
+				<tr>
+					<td><a class="button" th:href="@{/customer-info}">Account Information</a></td>
+				</tr>
+				<tr>
+					<td><a class="button" th:href="@{/logout}">Logout</a></td>
+				</tr>
+			</table>
+		</div>
+		<div th:insert="views/fragments/welcome :: footer"></div>
+	</body>
+</html>
