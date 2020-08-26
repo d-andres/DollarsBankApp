@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8"/>
-	<title>DollarsBank - Login</title>
-</head>
-<body>
-	<h2>Customer Login</h2>
-	<form action="#" th:action="@{/login}" th:object="${account}" method = "post">
-		<table>
-  			<tr>
-    			<td>Email:</td>
-   				<td>
-      				<input type = "text" name = "email" th:field="*{email}">
-    			</td>
-  			</tr>
- 			<tr>
-    			<td>Password:</td>
-    			<td>
-      				<input type = "password" name = "password" th:field="*{password}">
-   				</td>
- 			</tr>
-		</table>
-		<p><button type="submit" name="submit">Submit</button></p>
-	</form>
-</body>
+	<head>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" th:href="@{/css/forms.css}">
+		<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+		<title>DollarsBank - Login</title>
+	</head>
+	<body>
+
+		<form class="form-signin" action="#" th:action="@{/login}" th:object="${account}" method="post">
+			<div class="text-center mb-4">
+			<h1 class="h3 mb-3 font-weight-normal">Customer Login</h1>
+			</div>
+			<div class="form-label-group">
+			<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" th:field="*{email}">
+			<label for="inputEmail">Email address</label>
+			</div>
+	
+			<div class="form-label-group">
+			<input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" th:field="*{password}">
+			<label for="inputPassword">Password</label>
+			</div>
+	
+			<div class="checkbox mb-3">
+			<label>
+				<input type="checkbox" value="remember-me"> Remember me
+			</label>
+			</div>
+
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+			<div th:insert="views/fragments/welcome :: footer"></div>
+		</form>
+		
+	</body>
 </html>
