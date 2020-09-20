@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script src="@{/js/jquery.min.js}"></script>
+	<script src="@{/js/popper.min.js}"></script>
+	<script src="@{/js/bootstrap.min.js}"></script>
+	<title>DollarsBank - About Us</title>
+</head>
+<body>
+
+	<div th:if="${session.activeAccount == null}">
+		<div th:insert="views/fragments/navbar :: nav-new"></div>
+		<h1>About Us Test</h1>
+		<div th:insert="views/fragments/welcome :: footer"></div>
+	</div>
+
+	<div th:if="${session.activeAccount}">
+		<div th:insert="views/fragments/navbar :: nav-main"></div>
+		<h1>About Us Test</h1>
+		<div th:insert="views/fragments/welcome :: footer"></div>
+	</div>
+</body>
+</html>

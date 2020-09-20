@@ -2,9 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"/>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script src="@{/js/jquery.min.js}"></script>
+	<script src="@{/js/popper.min.js}"></script>
+	<script src="@{/js/bootstrap.min.js}"></script>
 	<title>DollarsBank - Logout</title>
 </head>
 <body>
+	<div th:insert="views/fragments/navbar :: nav-new"></div>
 	<h2 th:if="${activeAccount == null}">You have successfully logged out.</h2>
 	<h2 th:if="${activeAccount}">There was an error logging out.</h2>
 	<a class="button" th:href="@{/}">Return</a>

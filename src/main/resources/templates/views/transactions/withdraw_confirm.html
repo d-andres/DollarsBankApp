@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script src="@{/js/jquery.min.js}"></script>
+	<script src="@{/js/popper.min.js}"></script>
+	<script src="@{/js/bootstrap.min.js}"></script>
+	<title>Withdraw Success</title>
+</head>
+<body>
+	<div th:insert="views/fragments/navbar :: nav-main"></div>
+	<div th:if="${session.withdrew}">
+		<h2 >Withdraw Successful</h2><br>
+		<span>Your new balance is $<span th:text="${session.activeAccount.balance}"></span></span>
+	</div>
+	<div th:if="${!session.withdrew}">
+		<h2>Error withdrawing. Please Try Again.</h2>
+	</div>
+	<a class="button" th:href="@{/}">Return</a>
+</body>
+</html>

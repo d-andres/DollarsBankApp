@@ -21,8 +21,10 @@ public class AppController {
 	}
 
 	@RequestMapping("/")
-    String getHome() {
-		return "views/home";
+    String getHome(HttpSession session) {
+        if(session.getAttribute("activeAccount") != null)
+            return "views/home";
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
@@ -43,7 +45,7 @@ public class AppController {
                 session.setAttribute("activeAccount", a);
             }
         }
-        return "views/login/login_success";
+        return "views/login/login_confirm";
     }
 
     @GetMapping("/register")
@@ -62,7 +64,17 @@ public class AppController {
         } else
             session.setAttribute("registered", false);
             
-        return "views/register/register_success";
+        return "views/register/register_confirm";
+    }
+
+    @RequestMapping("/about")
+    String showAbout() {
+        return "views/information/about";
+    }
+
+    @RequestMapping("/contact")
+    String showContact() {
+        return "views/information/contact";
     }
 
     @RequestMapping("/logout")
@@ -92,10 +104,10 @@ public class AppController {
             accountRepository.updateHistoryById(account.getId(), history);
             session.setAttribute("activeAccount", account);
             session.setAttribute("deposited", true);
-            return "views/transactions/deposit_success";
+            return "views/transactions/deposit_confirm";
         }
         session.setAttribute("deposited", false);
-        return "views/transactions/deposit_success";
+        return "views/transactions/deposit_confirm";
     }
 
     @GetMapping("/withdraw")
@@ -119,12 +131,12 @@ public class AppController {
                 accountRepository.updateHistoryById(account.getId(), history);
                 session.setAttribute("activeAccount", account);
                 session.setAttribute("withdrew", true);
-                return "views/transactions/withdraw_success";
+                return "views/transactions/withdraw_confirm";
             }
             
         }
         session.setAttribute("withdrew", false);
-        return "views/transactions/deposit_success";
+        return "views/transactions/withdraw_confirm";
     }
 
     @GetMapping("/transfer")
@@ -136,7 +148,7 @@ public class AppController {
     @PostMapping("/transfer")
     String postTransfer(@ModelAttribute Account acct, HttpSession session) {
         session.setAttribute("transfered", false);
-        return "views/transactions/transfer_success";
+        return "views/transactions/transfer_confirm";
     }
 
     @RequestMapping("/recent-history")
